@@ -3,11 +3,17 @@ var Word = require("./word.js");
 var Letter = require("./letter.js");
 var guessesRemaining = 10;
 var letterGuessed = [];
+var word = randomWord();
 
-var randomWord = function () {
+
+function randomWord() {
     var allWords = ["Cheetah", "Dog", "Tiger", "Rhino", "Elephant", "Giraffe", "Sloth", "Jaguar", "Monkey", "Emu"];
     var pickWord = Math.floor(Math.random() * 10);
-    Word(allWords[pickWord]);
+    // Word(allWords[pickWord]);
+    var newWord = new Word(allWords[pickWord]);
+    newWord.stringMerge();
+    return newWord;
+    // console.log(newWord);
 };
 
 inquirer
@@ -29,7 +35,6 @@ function startGame() {
     if (letterGuessed.length > 0) {
         letterGuessed = [];
     }
-    randomWord();
     console.log("---------------------------------------");
     console.log("          Welcome to Hangman!          ");
     console.log("                  --                   ");
@@ -37,7 +42,7 @@ function startGame() {
     console.log("                  --                   ");
     console.log("              Good luck...             ");
     console.log("---------------------------------------\n");
-    console.log("Your Word: " + Word.word);
+    console.log("Your Word: " + word.guessedWord);
     inquirer
         .prompt([
             {
@@ -46,7 +51,9 @@ function startGame() {
                 name: "letter"
             }
         ]).then(function (guess) {
-            var userGuess = guess.letter;
-            Letter(userGuess);
+            word.character(guess.letter);
+            word.stringMerge();
+            startGame();
+            // userGuess.guess();
         })
 }

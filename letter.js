@@ -4,7 +4,7 @@ var Letter = function(letter) {
 
     this.characterReturn = function(){
         if(this.guessedCorrectly === true) {
-            console.log(this.letter);
+            // console.log(this.letter);
             return this.letter;
         } else {
             return " _ ";
