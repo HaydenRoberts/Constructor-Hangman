@@ -7,14 +7,20 @@ var word = randomWord();
 
 
 function randomWord() {
-    var allWords = ["Cheetah", "Dog", "Tiger", "Rhino", "Elephant", "Giraffe", "Sloth", "Jaguar", "Monkey", "Emu"];
+    var allWords = ["CHEETAH", "DOG", "TIGER", "RHINO", "ELEPHANT", "GIRAFFE", "SLOTH", "JAGUAR", "MONKEY", "EMU"];
     var pickWord = Math.floor(Math.random() * 10);
-    // Word(allWords[pickWord]);
     var newWord = new Word(allWords[pickWord]);
     newWord.stringMerge();
     return newWord;
-    // console.log(newWord);
 };
+
+    console.log("---------------------------------------");
+    console.log("          Welcome to Hangman!          ");
+    console.log("                  --                   ");
+    console.log(" You get 10 guesses to guess the word. ");
+    console.log("                  --                   ");
+    console.log("              Good luck...             ");
+    console.log("---------------------------------------\n");
 
 inquirer
     .prompt([
@@ -25,35 +31,51 @@ inquirer
         }
     ]).then(function (answer) {
         if (answer.play === true) {
-            startGame()
+            newGame();
         } else {
             console.log("Not up for the challenge?!")
         }
     });
 
-function startGame() {
-    if (letterGuessed.length > 0) {
-        letterGuessed = [];
+    function newGame () {
+        if (letterGuessed.length > 0) {
+            letterGuessed = [];
+        }
+        startGame();
+    };
+
+    function gameOver() {
+
     }
-    console.log("---------------------------------------");
-    console.log("          Welcome to Hangman!          ");
-    console.log("                  --                   ");
-    console.log(" You get 10 guesses to guess the word. ");
-    console.log("                  --                   ");
-    console.log("              Good luck...             ");
-    console.log("---------------------------------------\n");
-    console.log("Your Word: " + word.guessedWord);
+    
+    function startGame() {
+        if(guessesRemaining <= 0) {
+            gameOver();
+        }
+        console.log("\nYour Word: " + word.guessedWord + "\n");
     inquirer
         .prompt([
             {
                 type: "input",
                 message: "Guess A Letter!",
-                name: "letter"
+                name: "userLetter"
             }
         ]).then(function (guess) {
-            word.character(guess.letter);
+            var userGuessUpperCase = guess.userLetter.toUpperCase();
+            var guessedAlready = false;
+
+            for (i=0; i < letterGuessed.length; i++) {
+                if(userGuessUpperCase === letterGuessed[i]) {
+                    guessedAlready = true;
+                }
+            }
+
+            if(guessedAlready === false) {
+                letterGuessed.push(userGuessUpperCase);
+            }
+
+            word.character(userGuessUpperCase);
             word.stringMerge();
             startGame();
-            // userGuess.guess();
         })
 }

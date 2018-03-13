@@ -1,18 +1,17 @@
-var Letter = function(letter) {
-    this.letter = letter;
+var Letter = function(letterToFind) {
+    this.letterToFind = letterToFind;
     this.guessedCorrectly = false;
 
-    this.characterReturn = function(){
+    this.characterReturn = function() {
         if(this.guessedCorrectly === true) {
-            // console.log(this.letter);
-            return this.letter;
+            return this.letterToFind;
         } else {
             return " _ ";
         }
     }
 
-    this.guess = function(C){
-        if(C === this.letter) {
+    this.guess = function(userGuess) {
+        if(userGuess === this.letterToFind) {
             this.guessedCorrectly = true;
         }
     }
