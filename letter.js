@@ -4,7 +4,7 @@ var Letter = function(letterToFind) {
 
     this.characterReturn = function() {
         if(this.guessedCorrectly === true) {
-            return this.letterToFind;
+            return " " + this.letterToFind + " ";
         } else {
             return " _ ";
         }
@@ -13,7 +13,9 @@ var Letter = function(letterToFind) {
     this.guess = function(userGuess) {
         if(userGuess === this.letterToFind) {
             this.guessedCorrectly = true;
+           return 1;
         }
+        return 0;
     }
 };
 
